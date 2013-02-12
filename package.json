@@ -5,7 +5,9 @@
     "mocha": "1.8.x",
     "chai": "1.5.x"
   },
-  "scripts": {
-    "test": "./node_modules/.bin/mocha"
-  }
+  "homepage": "https://github.com/mtkopone/zhain",
+  "scripts": { "test": "./node_modules/.bin/mocha" },
+  "engines": { "node": "*" },
+  "main": "/zhain",
+  "repository": { "type": "git", "url": "https://github.com/mtkopone/zhain.git" }
 }
