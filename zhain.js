@@ -20,7 +20,7 @@ function Zhain(parent, fn) {
 
   Zhain.prototype.end = function() {
     var me = this
-    return function() { return me.run.apply(me, arguments) }
+    return function(callback) { return me.run.apply(me, arguments) }
   }
 
   Zhain.prototype.run = function(callback) {
