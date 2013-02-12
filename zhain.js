@@ -20,7 +20,11 @@ function Zhain(parent, fn) {
 
   Zhain.prototype.end = function() {
     var me = this
-    return function(callback) { return me.run.apply(me, arguments) }
+    return function(callback) {
+      var ctx = Object.create(Zhain.prototype)
+      ctx.context = this
+      return me.invoke.apply(me, [ctx, callback])
+    }
   }
 
   Zhain.prototype.run = function(callback) {

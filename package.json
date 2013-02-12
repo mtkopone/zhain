@@ -1,6 +1,6 @@
 {
   "name": "zhain",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "devDependencies": {
     "mocha": "1.8.x",
     "chai": "1.5.x"

@@ -118,6 +118,11 @@ describe('zhain-test', function() {
       z1(end); z1(end); z1(end); z1(end); z1(end);
       z1(end); z1(end); z1(end); z1(end); z1(end);
     })
+
+    it('retains parent caller as "context"', function(done) {
+      var z1 = z().do(function() { assert.isTrue(this.context.itsMe) }).end()
+      z1.call({ itsMe: true }, done)
+    })
   })
 
   describe('result values', function() {
