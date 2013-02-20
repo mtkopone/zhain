@@ -61,7 +61,7 @@ zhain()
 `.end` returns a function that when invoked will run the chain. It's useful for creating re-runnable chains and using zhain in e.g. mocha tests:
 
 ```javascript
-var sayPow = chain().do(function() { console.log('Pow') }).end()
+var sayPow = zhain().do(function() { console.log('Pow'); }).end()
 sayPow(); sayPow()
 
 it('tests things', zhain()
@@ -69,27 +69,36 @@ it('tests things', zhain()
   .end())
 ```
 
+If no errors occur, the ending function will receive the output of the last method in the chain.
+
+```javascript
+zhain()
+  .do(function() { return 1 })
+  .run(function(err, result) { console.log('Haz result: '+result) })
+
+```
+
 If a method in the chain throws an exception or invokes the callback with an error (1st argument, node.js style), the rest of the chain is bypassed and the ending function is invoked with the received error:
 
 Synchronously:
 
 ```javascript
-chain()
+zhain()
   .do(function() { throw 'Fail...' })
   .do(function() { console.log('I should never be called.') })
   .run(function(err) {
-    console.log("D'oh: " + fail)
+    console.log("D'oh: " + err)
   })
 ```
 
 Asynchronously:
 
 ```javascript
-chain()
+zhain()
   .do(function(done) { done('Fail...') })
   .do(function() { console.log('I should never be called.') })
   .run(function(err) {
-    console.log("D'oh: " + fail)
+    console.log("D'oh: " + err)
   })
 ```
 
@@ -154,7 +163,7 @@ it('updates person name', zhain()
   .end())
 ```
 
-<span style="padding-top:100px;">Enjoy,</span>
+<div style="margin-top:100px;">Enjoy,</div>
 
 
 
