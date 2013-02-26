@@ -32,7 +32,7 @@ Like so:
 ```javascript
 zhain()
   .do(function() { console.log('Pow!') })              // sync
-  .do(function(done) { $.get('/pow').then(done) })     // async
+  .do(function(done) { setTimeout(done, 250) })        // async
   .run()
 ```
 
