@@ -4,6 +4,8 @@ For - you know - zhaining things... Runs in the browser and in node.js.
 
 [![Build Status](https://secure.travis-ci.org/mtkopone/zhain.png?branch=master)](https://travis-ci.org/mtkopone/zhain)
 
+[Download](https://raw.github.com/mtkopone/zhain/master/zhain.js) or `npm install zhain`
+
 # Example
 
 ```javascript
