@@ -1,7 +1,6 @@
-var z = require('../zhain'),
-    assert = require('chai').assert
-
 describe('zhain-test', function() {
+  var z = require('../zhain')
+  var assert = require('chai').assert
   var calls
 
   beforeEach(function() { calls = [] })
