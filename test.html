@@ -3,6 +3,9 @@
   <meta charset="utf-8">
   <title>Zhain Mocha Tests</title>
   <link rel="stylesheet" href="node_modules/mocha/mocha.css" />
+  <script src="node_modules/jquery-browser/lib/jquery.js"></script>
+  <script src="node_modules/chai/chai.js"></script>
+  <script src="node_modules/mocha/mocha.js"></script>
   <script src="zhain.js"></script>
   <script src="zhain-ext.js"></script>
   <style>
@@ -18,12 +21,9 @@
       throw new Error('Missing dependency: ' + s)
     }
   </script>
-  <script src="node_modules/jquery-browser/lib/jquery.js"></script>
-  <script src="node_modules/chai/chai.js"></script>
-  <script src="node_modules/mocha/mocha.js"></script>
   <script>mocha.setup('bdd')</script>
   <script src="test/zhain-test.js"></script>
   <script src="test/zhain-ext-test.js"></script>
-  <script>mocha.run()</script>
+  <script>window.mochaPhantomJS ? mochaPhantomJS.run() : mocha.run()</script>
 </body>
  </html>
