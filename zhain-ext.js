@@ -1,4 +1,5 @@
 zhain.ext = {
+  assert: chai.assert,
   wait: {
     forAjax: function(callback) {
       $.active === 0 ? callback() : $(document).one('ajaxStop', function() { callback() })
@@ -48,49 +49,49 @@ zhain.ext = {
       $($selector.selector).click()
     },
     assertVal: function($locator, val) {
-      expect($($locator.selector)).to.have.value(val)
+      zhain.ext.assert.equal($($locator.selector).val(), val)
     },
     assertDisabled: function($locator) {
-      expect($($locator.selector)).to.be.disabled
+      zhain.ext.assert.isTrue($($locator.selector).is(':disabled'), '$("'+$locator.selector + '") is not disabled')
     },
     assertEnabled: function($locator) {
-      expect($($locator.selector)).not.to.be.disabled
+      zhain.ext.assert.isFalse($($locator.selector).is(':disabled'), '$("'+$locator.selector + '") is disabled')
     },
     assertText: function($locator, txt) {
-      assert.equal($($locator.selector).text(), txt)
+      zhain.ext.assert.equal($($locator.selector).text(), txt)
     },
     assertVisible: function($locator) {
-      expect($($locator.selector)).to.be.visible
+      zhain.ext.assert.isTrue($($locator.selector).is(':visible'), '$("'+$locator.selector + '") is not visible')
     },
     assertNotVisible: function($locator) {
-      expect($($locator.selector)).not.to.be.visible
+      zhain.ext.assert.isFalse($($locator.selector).is(':visible'), '$("'+$locator.selector + '") is visible')
     },
     assertHidden: function($locator) {
-      expect($($locator.selector)).to.be.hidden
+      zhain.ext.assert.isTrue($($locator.selector).is(':hidden'), '$("'+$locator.selector + '") is not hidden')
     },
     assertDoesNotExist: function($locator) {
-      expect($($locator.selector).length).to.equal(0)
+      zhain.ext.assert.equal($($locator.selector).length, 0, '$("'+$locator.selector + '") exists')
     },
     assertCount: function($locator, count) {
-      expect($($locator.selector).length).to.equal(count)
+      zhain.ext.assert.equal($($locator.selector).length, count, '$("'+$locator.selector + '").length')
     },
     assertEmpty: function($locator) {
-      expect($($locator.selector)).to.be.empty
+      zhain.ext.assert.isTrue($($locator.selector).is(':empty'), '$("'+$locator.selector + '") is not empty')
     },
     assertNotEmpty: function($locator) {
-      expect($($locator.selector)).not.to.be.empty
+      zhain.ext.assert.isFalse($($locator.selector).is(':empty'), '$("'+$locator.selector + '") is empty')
     },
     assertHasClass: function($locator, clazz) {
-      expect($($locator.selector)).to.have.class(clazz)
+      zhain.ext.assert.isTrue($($locator.selector).hasClass(clazz), '$("'+$locator.selector + '") doesn\'t have class "'+clazz+'"')
     },
     assertNoClass: function($locator, clazz) {
-      expect($($locator.selector)).not.to.have.class(clazz)
+      zhain.ext.assert.isFalse($($locator.selector).hasClass(clazz), '$("'+$locator.selector + '") shouldn\'t have class "'+clazz+'"')
     },
     assertChecked: function($locator) {
-      assert.isTrue($($locator.selector).is(':checked'))
+      zhain.ext.assert.isTrue($($locator.selector).is(':checked'), '$("'+$locator.selector + '") is not checked')
     },
     assertNotChecked: function($locator) {
-      assert.isFalse($($locator.selector).is(':checked'))
+      zhain.ext.assert.isFalse($($locator.selector).is(':checked'), '$("'+$locator.selector + '") is checked')
     },
     logAjax: function() {
       $(document).ajaxSend(log).ajaxComplete(log)
@@ -103,7 +104,7 @@ zhain.ext = {
   },
   async: {
     enterThrottledVal: function($input, val, done) {
-      zhain.ext.sync.enterVal($input, val, done)
+      zhain.ext.sync.enterValAndKeyupBlur($input, val, done)
       zhain.ext.wait.forThrottledAjax(done)
     },
     ajaxClick: function($selector, done) {
