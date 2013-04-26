@@ -1,24 +1,12 @@
 zhain.ext = {
   wait: {
     forAjax: function(callback) {
-      checkAjax()
-      function checkAjax() {
-        $.active === 0 ? callback() : $('#sut').ajaxStop(stopHandler)
-      }
-      function stopHandler() {
-        $('#sut').off('ajaxStop', stopHandler)
-        checkAjax()
-      }
+      $.active === 0 ? callback() : $(document).one('ajaxStop', function() { callback() })
     },
     forThrottledAjax: function(callback) {
-      function stopHandler() {
-        $('#sut').off('ajaxStop', stopHandler)
-        callback()
-      }
-      function startHandler() {
-        $('#sut').off('ajaxSend', startHandler).ajaxStop(stopHandler)
-      }
-      $('#sut').ajaxSend(startHandler)
+      $(document).one('ajaxSend', function() {
+        $(document).one('ajaxStop', function() { callback() })
+      })
     },
     forTransitionEnd: function($locator, callback) {
       $($locator.selector).one('transitionEnd webkitTransitionEnd oTransitionEnd msTransitionEnd', function() { callback() })
@@ -28,6 +16,9 @@ zhain.ext = {
     },
     untilVisible: function($locator, callback) {
       zhain.ext.wait.until(function() { return $($locator.selector).is(':visible') }, callback)
+    },
+    untilExists: function($locator, callback) {
+      zhain.ext.wait.until(function() { return $($locator.selector).length > 0 }, callback)
     },
     until: function(conditionFn, callback) {
       var that = this
