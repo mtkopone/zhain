@@ -18,6 +18,9 @@ zhain.ext = {
     untilVisible: function($locator, callback) {
       zhain.ext.wait.until(function() { return $($locator.selector).is(':visible') }, callback)
     },
+    untilHidden: function($locator, callback) {
+      zhain.ext.wait.until(function() { return !$($locator.selector).is(':visible') }, callback)
+    },
     untilExists: function($locator, callback) {
       zhain.ext.wait.until(function() { return $($locator.selector).length > 0 }, callback)
     },
@@ -59,6 +62,9 @@ zhain.ext = {
     },
     assertText: function($locator, txt) {
       zhain.ext.assert.equal($($locator.selector).text(), txt)
+    },
+    assertHtml: function($locator, html) {
+      zhain.ext.assert.equal($($locator.selector).html(), html)
     },
     assertVisible: function($locator) {
       zhain.ext.assert.isTrue($($locator.selector).is(':visible'), '$("'+$locator.selector + '") is not visible')
@@ -118,26 +124,30 @@ zhain.ext = {
   },
   register: function() {
     Object.keys(zhain.ext.wait).forEach(function(fnName) {
-      Zhain.prototype['wait' + toTitleCase(fnName)] = function() {
-        var args = Array.prototype.slice.call(arguments)
-        return this.do(function(done) { zhain.ext.wait[fnName].apply(this, args.concat([done])) })
-      }
+      zhain.ext.registerAsync('wait' + toTitleCase(fnName), zhain.ext.wait[fnName])
     })
     Object.keys(zhain.ext.sync).forEach(function(fnName) {
-      Zhain.prototype[fnName] = function() {
-        var args = Array.prototype.slice.call(arguments)
-        return this.do(function() { zhain.ext.sync[fnName].apply(this, args) })
-      }
+      zhain.ext.registerSync(fnName, zhain.ext.sync[fnName])
     })
     Object.keys(zhain.ext.async).forEach(function(fnName) {
-      Zhain.prototype[fnName] = function() {
-        var args = Array.prototype.slice.call(arguments)
-        return this.do(function(done) { zhain.ext.async[fnName].apply(this, args.concat([done])) })
-      }
+      zhain.ext.registerAsync(fnName, zhain.ext.async[fnName])
     })
     
     function toTitleCase(s) {
       return s.replace(/(?:^|\s|-)\S/g, function(c){ return c.toUpperCase() })
     }
+  },
+  registerSync: function(name, fn) {
+    Zhain.prototype[name] = function() {
+      var args = Array.prototype.slice.call(arguments)
+      return this.do(function() { fn.apply(this, args) })
+    }
+  },
+  registerAsync: function(name, fn) {
+    Zhain.prototype[name] = function() {
+      var args = Array.prototype.slice.call(arguments)
+      return this.do(function(done) { fn.apply(this, args.concat([done])) })
+    }
   }
+
 }
