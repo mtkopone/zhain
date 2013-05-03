@@ -45,6 +45,15 @@ describe('zhain-ext-test', notInNode(function() {
     })
   })
 
+  it('waitUntilHidden', function(done) {
+    $(box()).appendTo($sut)
+    setTimeout(function() { $('#sut #box').hide() }, 10)
+    z().waitUntilHidden($('#sut #box')).run(function() {
+      assert.isFalse($('#sut #box').is(':visible'))
+      done()
+    })
+  })
+
   it('waitForTransitionEnd', function(done) {
     $sut.html(box())
     $('#box').css(csstransitions())
@@ -77,10 +86,12 @@ describe('zhain-ext-test', notInNode(function() {
     $('<p>pow</p>').appendTo($sut)
     $('<section/>').appendTo($sut)
     $('<input id="checkbox" type="checkbox"/>').appendTo($sut)
+    $('<div id="html"><div>Ehlo</div></div>').appendTo($sut)
     z().assertVal($('#sut input'), 'pow')
       .do(function() { $('#sut input').attr('disabled', 'disabled') }).assertDisabled($('#sut input'))
       .do(function() { $('#sut input').removeAttr('disabled') }).assertEnabled($('#sut input'))
       .assertText($('#sut p'), 'pow')
+      .assertHtml($('#sut #html'), '<div>Ehlo</div>')
       .do(function() { $('#sut p').hide() }).assertHidden($('#sut p')).assertNotVisible($('#sut p'))
       .do(function() { $('#sut p').show() }).assertVisible($('#sut p'))
       .assertDoesNotExist($('#sut span'))
