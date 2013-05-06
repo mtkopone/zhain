@@ -2,12 +2,10 @@ zhain.ext = {
   assert: chai.assert,
   wait: {
     forAjax: function(callback) {
-      $.active === 0 ? callback() : $(document).one('ajaxStop', function() { callback() })
+      $.active === 0 ? callback() : $(document).one('ajaxStop', function() { zhain.ext.wait.forAjax(callback) })
     },
     forThrottledAjax: function(callback) {
-      $(document).one('ajaxSend', function() {
-        $(document).one('ajaxStop', function() { callback() })
-      })
+      $(document).one('ajaxSend', function() { zhain.ext.wait.forAjax(callback) })
     },
     forTransitionEnd: function($locator, callback) {
       $($locator.selector).one('transitionEnd webkitTransitionEnd oTransitionEnd msTransitionEnd', function() { callback() })
