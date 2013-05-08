@@ -224,11 +224,32 @@ describe('zhain-test', function() {
   })
 
   describe('utils', function() {
-    it('extending', function(done) {
+    it('extending with prototype', function(done) {
       z().pow().run(function(err, res) {
         assert.equal(res, 'pow')
         done()
       })
+    })
+
+    it('extending without prototype', function(done) {
+      z()
+        .extend('bang', function() { return this.do(function() { return 'bang' }) })
+        .bang()
+        .run(function(err, res) {
+          assert.equal(res, 'bang')
+          done()
+        })
+    })
+
+    it('non-prototype extensions stay between runs', function(done) {
+      var chain1 = z().extend('boom', function() { return this.do(function() { return 'boom' }) })
+        .pow()
+        .do(function(err, res) {
+          assert.equal(res, 'boom')
+        }).end()
+      chain1()
+      chain1()
+      done()
     })
 
     it('sleep()', function(done) {

@@ -45,6 +45,11 @@ function Zhain(parent, fn) {
     })
   }
 
+  Zhain.prototype.extend = function(fnName, fn) {
+    this[fnName] = fn
+    return this
+  }
+
   Zhain.prototype.log = function(string) {
     return this.sync(function() { console.log(string || arguments) })
   }
