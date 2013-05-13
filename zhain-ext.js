@@ -104,7 +104,7 @@ zhain.ext = {
         var header = (e.type == 'ajaxComplete') ? 'DONE ' : ''
         console.log(header+opts.type+' '+opts.url)
       }
-    }    
+    }
   },
   async: {
     enterThrottledVal: function($input, val, done) {
@@ -144,7 +144,9 @@ zhain.ext = {
   registerAsync: function(name, fn) {
     Zhain.prototype[name] = function() {
       var args = Array.prototype.slice.call(arguments)
-      return this.do(function(done) { fn.apply(this, args.concat([done])) })
+      return this.do(function(invokedArgs) {
+        var done = arguments[arguments.length - 1]
+        fn.apply(this, args.concat([done])) })
     }
   }
 

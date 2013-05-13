@@ -73,6 +73,24 @@ describe('zhain-ext-test', notInNode(function() {
     })
   })
 
+  it('waitUntil context', function(done) {
+    z().do(function() { this.itsMe = true })
+      .waitUntil(function() { assert.isTrue(this.itsMe); return true })
+      .run(function() { assert.isTrue(this.itsMe); done() })
+  })
+
+  it('waitUntil works when arguments passed', function(done) {
+    var calls = []
+    z().do(function() { calls.push(1); return 1 })
+      .waitUntil(function() { calls.push(2); return true })
+      .do(function() { calls.push(3); })
+      .run(function(err) {
+        assert.isNull(err)
+        assert.deepEqual(calls, [1,2,3])
+        done()
+      })
+  })
+
   it('enterVal', function(done) {
     $sut.html(input())
     z().enterVal($('#sut input'), 'pow').run(function() {
