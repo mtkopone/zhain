@@ -108,6 +108,15 @@ describe('zhain-ext-test', notInNode(function() {
     })
   })
 
+  it('throttledAjaxClick', function (done) {
+    var projectName
+    $sut.append(button(function () { setTimeout(function () { $.get('./package.json', function (json) { projectName = json.name}, 'json') }, 10) }))
+    z().throttledAjaxClick($('button')).run(function () {
+      assert.equal(projectName, 'zhain')
+      done()
+    })
+  })
+
   it('asserts', function(done) {
     $(input()).val('pow').appendTo($sut)
     $('<p>pow</p>').appendTo($sut)
