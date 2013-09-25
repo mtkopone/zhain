@@ -99,6 +99,15 @@ describe('zhain-ext-test', notInNode(function() {
     })
   })
 
+  it('ajaxClick', function (done) {
+    var projectName
+    $sut.append(button(function () { $.get('./package.json', function (json) { projectName = json.name}, 'json') }))
+    z().ajaxClick($('button')).run(function () {
+      assert.equal(projectName, 'zhain')
+      done()
+    })
+  })
+
   it('asserts', function(done) {
     $(input()).val('pow').appendTo($sut)
     $('<p>pow</p>').appendTo($sut)
@@ -125,6 +134,7 @@ describe('zhain-ext-test', notInNode(function() {
 
   function box() { return '<div id="box" style="width:10px; height:10px; background-color:red; position: absolute; top: 60px; right: 10px;"></div>' }
   function input() { return '<input type="text">' }
+  function button(handler) { return $('<button>').click(handler) }
   function csstransitions() { return { '-webkit-transition': 'all .1s ease', '-moz-transition': 'all .1s ease;', '-o-transition': 'all .1s ease', '-ms-transition': 'all .1s ease', transition: 'all .1s ease' } }
 }))
 
