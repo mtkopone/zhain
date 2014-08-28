@@ -93,3 +93,9 @@ function Zhain(parent, fn) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = zhain
 }
+
+if(typeof define === 'function' && define.amd) {
+  define(function() {
+    return zhain
+  })
+}
