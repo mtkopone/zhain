@@ -117,7 +117,7 @@ zhain()
 
 When the function returned by `.end` is invoked with a `this`, it's bound to `this.context` within functions of the chain.
 
-Example - output the test title and set a [test specific timeout](http://visionmedia.github.com/mocha/#test-specific-timeouts) in mocha:
+Example - output the test title and set a [test specific timeout](https://mochajs.org/#test-level) in mocha:
 
 ```javascript
 it('does things', zhain()
