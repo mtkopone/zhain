@@ -115,6 +115,10 @@ zhain.ext = {
       $($selector.selector).click()
       zhain.ext.wait.forAjax(done)
     },
+    throttledAjaxClick: function($selector, done) {
+      $($selector.selector).click()
+      zhain.ext.wait.forThrottledAjax(done)
+    },
     ajaxTrigger: function($selector, event, done) {
       $($selector.selector).trigger(event)
       zhain.ext.wait.forAjax(done)
